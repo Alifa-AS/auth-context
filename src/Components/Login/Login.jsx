@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
 
 const Login = ({children}) => {
-
-    const { signInUser } =useContext(AuthContext);
+    const navigate = useNavigate();
+    const { signInUser, signInWithGoogle } =useContext(AuthContext);
 
 
    const handleLogin = (e) =>{
@@ -17,11 +17,25 @@ const Login = ({children}) => {
     signInUser(email,password)
     .then(result =>{
         console.log(result.user);
+        e.target.reset();
+        navigate('/')
     })
     .catch(error =>{
         console.log('ERROR', error.message);
     })
    }
+
+   const handleGoogleSignIn = () => {
+    signInWithGoogle()
+    .then(result => {
+        console.log(result.user);
+        navigate('/')
+    })
+    .catch(error =>{
+        console.log('ERROR',error.message);
+    })
+   }
+
 
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -50,9 +64,13 @@ const Login = ({children}) => {
                     <button className="btn btn-primary">Login</button>
                     </div>
                 </form>
-                <p className='ml-4 mb-4'>New to this website? please 
-                    <Link className='text-red-600 pl-2 underline' 
-                    to="/register">Sign Up</Link></p>
+                    <p className='ml-4 mb-4'>New to this website? please 
+                        <Link className='text-red-600 pl-2 underline' 
+                        to="/register">Sign Up</Link>
+                    </p>
+                    <p>
+                        <button onClick={handleGoogleSignIn} className='btn btn-ghost'>Google</button>
+                    </p>
                 </div>
             </div>
         </div>
