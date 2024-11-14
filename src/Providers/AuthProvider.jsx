@@ -1,16 +1,29 @@
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { createContext } from 'react';
+import { auth } from '../firebase.init';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
 
-    const authInfo = {
-        name: 'nodi sagor khal bill'
+    const name= 'sagor nodi';
+
+    const createUser = (email, password) =>{
+        return createUserWithEmailAndPassword(auth,email,password)
     }
 
+    const signInUser = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password);
+    }
+
+    const authInfo = {
+        name, 
+        createUser,
+        signInUser
+    }
+    
     return (
         <AuthContext.Provider value={authInfo}>
-            {/* main part who will have access to this context */}
             {children}
         </AuthContext.Provider>
     );
@@ -26,4 +39,5 @@ export default AuthProvider;
  * 4.[attention please]
  * 5.use the auth provider in the  main.jsx 
  * 6. access the children inside the authProvider in the main.jsx 
+ * 7.export auth context
  */
