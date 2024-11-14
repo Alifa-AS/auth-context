@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
 
 const Login = ({children}) => {
 
-    const { signInUser } = useContext(AuthContext);
+    const { signInUser } =useContext(AuthContext);
 
 
    const handleLogin = (e) =>{
